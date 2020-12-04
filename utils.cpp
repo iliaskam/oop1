@@ -46,12 +46,17 @@ int Student::student_floor(Student& st) {
     return this->floor_num;
 }
 
+int Student::student_class(Student& st) {
+    return this->class_num;
+}
+
 //////////////////////////////////////////////////////////////////////
 
 Classroom::Classroom(int Cclas) {
     Cclass = Cclas;
     size = 0;
     class_student = new Student*[Cclass];
+    
     cout << "A New Classroom has been created!" << endl;
 }
 
@@ -62,10 +67,13 @@ Classroom::~Classroom() {
 
 void Classroom::enter_classroom(Student& st) {
     size++;
-    class_student[size] = &st;
-    cout << st.student_name(st) << " enters classroom!" << endl;
+    class_student[size] = new Student(st);
+    cout << st.student_name(st) << " enters classroom!"<< endl;
 }
 
+int Classroom::classroom_size() {
+    return this->size;
+}
 //////////////////////////////////////////////////////////////////////
 
 Corridor::Corridor(int Ccor) {
@@ -82,16 +90,14 @@ Corridor::~Corridor() {
 
 void Corridor::enter_corr(Student& st) {
     size++;
-    corr_student[size] = &st;
+    corr_student[size] = new Student(st);
     cout << st.student_name(st) << " enters corridor!" << endl;
 }
 
-Student& Corridor::exit_corr() {
-    Student& temp = *corr_student[size];
+void Corridor::exit_corr() {
     cout << corr_student[size]->student_name(*corr_student[size]) << " exit corridor!" << endl;
     corr_student[size] = NULL;
     size--;
-    return temp;
 }
 
 int Corridor::corr_size() {
@@ -124,38 +130,51 @@ Floor::~Floor() {
     cout << "Delete Floor!" << endl;
 }
 
-void Floor::enter_floor(Student& st) {
-    
-    size++;
+void Floor::enter_floor(Student& st) {  
     cout << st.student_name(st) << " enters floor!" << endl;
     corridor->enter_corr(st);
-    
-            Student& temp = corridor->exit_corr();
-            switch (temp.student_floor(temp)) {
-                case 1:
-                    classroom1->enter_classroom(temp);
-                    break;
-                case 2:
-                    classroom2->enter_classroom(temp);
-                    break;
-                case 3:
-                    classroom3->enter_classroom(temp);
-                    break; 
-                case 4:
-                    classroom4->enter_classroom(temp);
-                    break;
-                case 5:
-                    classroom5->enter_classroom(temp);
-                    break;
-                case 6:
-                    classroom6->enter_classroom(temp);
-                    break;
+    switch (st.student_class(st)) {
+        case 1:
+            if (classroom1->classroom_size() < Cclass) {
+                corridor->exit_corr();
+                this->classroom1->enter_classroom(st);
             }
-            
+            break;
+        case 2:
+            if (classroom2->classroom_size() < Cclass) {
+                corridor->exit_corr();
+                this->classroom2->enter_classroom(st);
+            }
+            break;
+        case 3:
+            if (classroom3->classroom_size() < Cclass) {
+                corridor->exit_corr();
+                this->classroom3->enter_classroom(st);
+            }       
+            break; 
+        case 4:
+            if (classroom4->classroom_size() < Cclass) {
+                corridor->exit_corr();
+                this->classroom4->enter_classroom(st);
+            }
+            break;
+        case 5:
+            if (classroom5->classroom_size() < Cclass) {
+                corridor->exit_corr();
+                this->classroom5->enter_classroom(st);
+            }
+            break;
+        case 6:
+            if (classroom6->classroom_size() < Cclass) {
+                corridor->exit_corr();
+                this->classroom6->enter_classroom(st);
+            }
+            break;
+        }            
 }
 
 int Floor::floor_size() {
-    return this->size;
+    return corridor->corr_size();
 }
 
 
@@ -175,17 +194,15 @@ Stairs::~Stairs() {
 
 void Stairs::enter_stairs(Student& st) {
     size++;
-    stair_student[size] = &st;
+    stair_student[size] = new Student(st);
     cout << st.student_name(st) << " enters stairs!" << endl;
 }
 
-Student& Stairs::exit_stairs() {
+void Stairs::exit_stairs() {
     
-    Student& temp = *stair_student[size];
     cout << stair_student[size]->student_name(*stair_student[size]) << " exit stairs!" << endl;
     stair_student[size] = NULL;
     size--;
-    return temp;
 }
 
 int Stairs::stair_size() {
@@ -207,16 +224,14 @@ Schoolyard::~Schoolyard() {
 
 void Schoolyard::enter_schoolyard(Student &st) {
     size++;
-    yard_student[size] = &st;
+    yard_student[size] = new Student(st);
     cout << st.student_name(st) << " enters schoolyard!" << endl;
 }
 
-Student& Schoolyard::exit_schoolyard() {
-    Student& temp = *yard_student[size];
+void Schoolyard::exit_schoolyard() {
     cout << yard_student[size]->student_name(*yard_student[size]) << " exit schoolyard!" << endl;
     yard_student[size] = NULL;
     size--;
-    return temp;
 }
 
 int Schoolyard::schoolyard_size() {
@@ -231,7 +246,6 @@ School::School(int Cclas, int Cyar, int Cstai, int Ccor) {
     Cstair = Cstai;
     Ccorr = Ccor;
     var = 1;
-    var2 =1;
     floor1 = new Floor(Cclass, Ccorr);
     floor2 = new Floor(Cclass, Ccorr);
     floor3 = new Floor(Cclass, Ccorr);
@@ -255,34 +269,35 @@ void School::enter_sschool(Student& st) {
         schoolyard->enter_schoolyard(st);
         var++;
     }
-    if (schoolyard->schoolyard_size() == Cyard) {
-        while (stairs->stair_size() < Cstair) {
-            stairs->enter_stairs(schoolyard->exit_schoolyard());
-        }
+    if (stairs->stair_size() < Cstair) {
+            schoolyard->exit_schoolyard();
+            stairs->enter_stairs(st);
     }
-    if (stairs->stair_size() == Cstair) {
-        var2 = 1;
-        while (var2 <= Cstair && floor1->floor_size() < Ccorr && floor2->floor_size() < Ccorr && floor3->floor_size() < Ccorr) {
-            var2++;
-            Student& temp = stairs->exit_stairs();
-            switch (temp.student_floor(temp)) {
-                case 1:
-                    floor1->enter_floor(temp);
-                    break;
-                case 2:
-                    floor2->enter_floor(temp);
-                    break;
-                case 3:
-                    floor3->enter_floor(temp);
-                    break; 
+    switch (st.student_floor(st)) {
+        case 1:
+            if (floor1->floor_size() < Ccorr) {
+                stairs->exit_stairs();
+                floor1->enter_floor(st);
+            }    
+            break;
+        case 2:
+            if (floor2->floor_size() < Ccorr) {
+                stairs->exit_stairs();
+                floor2->enter_floor(st);
             }
-            
-        }
+            break;
+        case 3:
+            if (floor3->floor_size() < Ccorr) {
+                stairs->exit_stairs();
+                floor3->enter_floor(st);
+            }
+            break; 
     }
+    
 }
 
 void School::enter_mschool(Student* st[], int cap) {
-    while (var <= cap) {
+    while (var <= cap && schoolyard->schoolyard_size() < Cyard) {
         this->enter_sschool(*st[var]);
     }
 }

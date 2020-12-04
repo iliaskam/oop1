@@ -8,9 +8,8 @@ using namespace std;
 
 int main() {
     
-    int Cclass = 3, Cyard = 10, Cstair = 7, Ccorr = 6;
+    int Cclass = 5, Cyard = 15, Cstair = 10, Ccorr = 10;
     School school(Cclass, Cyard, Cstair, Ccorr);
-    
     srand(time(0));
     /*Student st0("Sotiris", rand() % 3 + 1, rand() % 6 + 1, "Out of school");
     school.enter_sschool(st0);*/
@@ -84,5 +83,5 @@ int main() {
 		i++;
 	}
 
-	return 0;
+	return  0;
 }
