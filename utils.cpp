@@ -75,9 +75,8 @@ void Classroom::enter_classroom(Student& st) {
     size++;
 }
 
-void Classroom::print_classroom() {
-    classroom_num++;
-    cout << "People in classroom " << classroom_num << " are: " << endl;
+void Classroom::print_classroom(int num) {
+    cout << "People in classroom " << num << " are: " << endl;
     for (int i = 0; i < this->size; i++) {
         cout << class_student[i]->student_name(*class_student[i]) << endl;
     }
@@ -132,7 +131,6 @@ int Corridor::corr_size() {
 Floor::Floor(int Cclas, int Ccor) {
     Cclass = Cclas;
     Ccorr = Ccor;
-    floor_num = 0;
     classroom1 = new Classroom(Cclass);
     classroom2 = new Classroom(Cclass);
     classroom3 = new Classroom(Cclass);
@@ -197,16 +195,16 @@ void Floor::enter_floor(Student& st) {
         }            
 }
 
-void Floor::print_floor() {
-    floor_num++;
-    cout << "Floor number " << floor_num << " contains: " << endl;
+void Floor::print_floor(int num) {
+    cout << "Floor number " << num << " contains: " << endl;
     corridor->print_corr();
-    classroom1->print_classroom();
-    classroom2->print_classroom();
-    classroom3->print_classroom();
-    classroom4->print_classroom();
-    classroom5->print_classroom();
-    classroom6->print_classroom();
+    int i = 1;
+    classroom1->print_classroom(i++);
+    classroom2->print_classroom(i++);
+    classroom3->print_classroom(i++);
+    classroom4->print_classroom(i++);
+    classroom5->print_classroom(i++);
+    classroom6->print_classroom(i++);
 }
 
 int Floor::floor_size() {
@@ -349,7 +347,6 @@ void School::enter_sschool(Student& st) {
             }
             break; 
     }
-    
 }
 
 void School::enter_mschool(Student* st[], int cap) {
@@ -362,9 +359,10 @@ void School::print_school() {
     cout << "School life consists of: " << endl;
     schoolyard->print_yard();
     stairs->print_stairs();
-    floor1->print_floor();
-    floor2->print_floor();
-    floor3->print_floor();
+    int i = 1;
+    floor1->print_floor(i++);
+    floor2->print_floor(i++);
+    floor3->print_floor(i++);
 }
 
 int School::school_size() {

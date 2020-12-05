@@ -37,7 +37,7 @@ class Classroom {
         Classroom(int Cclass);
         ~Classroom();
         void enter_classroom(Student& st);
-        void print_classroom();
+        void print_classroom(int num);
         int classroom_size();
 };
 
@@ -74,7 +74,7 @@ class Floor {
         Floor(int Cclass, int Ccorr);
         ~Floor();
         void enter_floor(Student& st);
-        void print_floor();
+        void print_floor(int num);
         int floor_size();
 };
 
