@@ -55,20 +55,32 @@ int Student::student_class(Student& st) {
 Classroom::Classroom(int Cclas) {
     Cclass = Cclas;
     size = 0;
+    classroom_num = 0;
     class_student = new Student*[Cclass];
     
     cout << "A New Classroom has been created!" << endl;
 }
 
 Classroom::~Classroom() {
-    cout << "Delete Classroom!" << endl;
+    for (int i = 0; i < Cclass; i++) 
+        delete class_student[i];
     delete[] class_student;
+    cout << "Delete Classroom!" << endl;
 }
 
 void Classroom::enter_classroom(Student& st) {
-    size++;
-    class_student[size] = new Student(st);
+    
+    class_student[size] = &st;
     cout << st.student_name(st) << " enters classroom!"<< endl;
+    size++;
+}
+
+void Classroom::print_classroom() {
+    classroom_num++;
+    cout << "People in classroom " << classroom_num << " are: " << endl;
+    for (int i = 0; i < this->size; i++) {
+        cout << class_student[i]->student_name(*class_student[i]) << endl;
+    }
 }
 
 int Classroom::classroom_size() {
@@ -84,20 +96,31 @@ Corridor::Corridor(int Ccor) {
 }
 
 Corridor::~Corridor() {
-    cout << "Delete Corridor!" << endl;
+    for (int i = 0; i < Ccorr; i++) 
+        delete corr_student[i];
     delete[] corr_student;
+    cout << "Delete Corridor!" << endl;
 }
 
 void Corridor::enter_corr(Student& st) {
-    size++;
-    corr_student[size] = new Student(st);
+    
+    corr_student[size] = &st;
     cout << st.student_name(st) << " enters corridor!" << endl;
+    size++;
 }
 
 void Corridor::exit_corr() {
+    size--;
     cout << corr_student[size]->student_name(*corr_student[size]) << " exit corridor!" << endl;
     corr_student[size] = NULL;
-    size--;
+    
+}
+
+void Corridor::print_corr() {
+    cout << "People in corridor are: " << endl;
+    for (int i = 0; i < this->size; i++) {
+        cout << corr_student[i]->student_name(*corr_student[i]) << endl;
+    }
 }
 
 int Corridor::corr_size() {
@@ -109,6 +132,7 @@ int Corridor::corr_size() {
 Floor::Floor(int Cclas, int Ccor) {
     Cclass = Cclas;
     Ccorr = Ccor;
+    floor_num = 0;
     classroom1 = new Classroom(Cclass);
     classroom2 = new Classroom(Cclass);
     classroom3 = new Classroom(Cclass);
@@ -173,6 +197,18 @@ void Floor::enter_floor(Student& st) {
         }            
 }
 
+void Floor::print_floor() {
+    floor_num++;
+    cout << "Floor number " << floor_num << " contains: " << endl;
+    corridor->print_corr();
+    classroom1->print_classroom();
+    classroom2->print_classroom();
+    classroom3->print_classroom();
+    classroom4->print_classroom();
+    classroom5->print_classroom();
+    classroom6->print_classroom();
+}
+
 int Floor::floor_size() {
     return corridor->corr_size();
 }
@@ -188,21 +224,32 @@ Stairs::Stairs(int Cstai) {
 }
 
 Stairs::~Stairs() {
-    cout << "Delete Stairs!" << endl;
+    for (int i = 0; i < Cstair; i++)
+        delete stair_student[i];
     delete[] stair_student;
+    cout << "Delete Stairs!" << endl;
 }
 
 void Stairs::enter_stairs(Student& st) {
-    size++;
-    stair_student[size] = new Student(st);
+    
+    stair_student[size] = &st;
     cout << st.student_name(st) << " enters stairs!" << endl;
+    size++;
 }
 
 void Stairs::exit_stairs() {
     
+    size--;
     cout << stair_student[size]->student_name(*stair_student[size]) << " exit stairs!" << endl;
     stair_student[size] = NULL;
-    size--;
+
+}
+
+void Stairs::print_stairs() {
+    cout << "People in stairs are: " << endl;
+    for (int i = 0; i < this->size; i++) {
+        cout << stair_student[i]->student_name(*stair_student[i]) << endl;
+    }
 }
 
 int Stairs::stair_size() {
@@ -218,20 +265,29 @@ Schoolyard::Schoolyard(int Cyar) {
 }
 
 Schoolyard::~Schoolyard() {
-    cout << "Delete Shoolyard!" << endl;
+    for (int i = 0; i < Cyard; i++)
+        delete yard_student[i];
     delete[] yard_student;
+    cout << "Delete Shoolyard!" << endl;
 }
 
 void Schoolyard::enter_schoolyard(Student &st) {
-    size++;
-    yard_student[size] = new Student(st);
+    yard_student[size] = &st;
     cout << st.student_name(st) << " enters schoolyard!" << endl;
+    size++;
 }
 
 void Schoolyard::exit_schoolyard() {
+    size--;
     cout << yard_student[size]->student_name(*yard_student[size]) << " exit schoolyard!" << endl;
     yard_student[size] = NULL;
-    size--;
+}
+
+void Schoolyard::print_yard() {
+    cout << "People in schoolyard are: " << endl;
+    for (int i = 0; i < this->size; i++) {
+        cout << yard_student[i]->student_name(*yard_student[i]) << endl;
+    }
 }
 
 int Schoolyard::schoolyard_size() {
@@ -245,7 +301,7 @@ School::School(int Cclas, int Cyar, int Cstai, int Ccor) {
     Cyard = Cyar;
     Cstair = Cstai;
     Ccorr = Ccor;
-    var = 1;
+    var = 0;
     floor1 = new Floor(Cclass, Ccorr);
     floor2 = new Floor(Cclass, Ccorr);
     floor3 = new Floor(Cclass, Ccorr);
@@ -297,9 +353,18 @@ void School::enter_sschool(Student& st) {
 }
 
 void School::enter_mschool(Student* st[], int cap) {
-    while (var <= cap && schoolyard->schoolyard_size() < Cyard) {
+    while (var < cap && schoolyard->schoolyard_size() < Cyard) {
         this->enter_sschool(*st[var]);
     }
+}
+
+void School::print_school() {
+    cout << "School life consists of: " << endl;
+    schoolyard->print_yard();
+    stairs->print_stairs();
+    floor1->print_floor();
+    floor2->print_floor();
+    floor3->print_floor();
 }
 
 int School::school_size() {

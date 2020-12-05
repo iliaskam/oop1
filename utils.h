@@ -29,6 +29,7 @@ class Student {
 class Classroom {
     int Cclass;
     int size;
+    int classroom_num;
     Student** class_student;
 
     public:
@@ -36,6 +37,7 @@ class Classroom {
         Classroom(int Cclass);
         ~Classroom();
         void enter_classroom(Student& st);
+        void print_classroom();
         int classroom_size();
 };
 
@@ -50,6 +52,7 @@ class Corridor {
         ~Corridor();
         void enter_corr(Student& st);
         void exit_corr();
+        void print_corr();
         int corr_size();
 };
 
@@ -57,6 +60,7 @@ class Floor {
     int Cclass;
     int Ccorr;
     int size;
+    int floor_num;
     Classroom* classroom1;
     Classroom* classroom2;
     Classroom* classroom3;
@@ -70,6 +74,7 @@ class Floor {
         Floor(int Cclass, int Ccorr);
         ~Floor();
         void enter_floor(Student& st);
+        void print_floor();
         int floor_size();
 };
 
@@ -84,6 +89,7 @@ class Stairs {
         ~Stairs(); 
         void enter_stairs(Student &st);
         void exit_stairs();
+        void print_stairs();
         int stair_size();
 };
 
@@ -99,6 +105,7 @@ class Schoolyard {
         ~Schoolyard();
         void enter_schoolyard(Student &st);
         void exit_schoolyard();
+        void print_yard();
         int schoolyard_size();
 };
 
@@ -120,5 +127,6 @@ class School {
         ~School();
         void enter_sschool(Student &st);
         void enter_mschool(Student* st[], int cap);
+        void print_school();
         int school_size();
 };
