@@ -90,10 +90,10 @@ int main() {
 	school->print_school();
 
 	delete school;
-	//for (int w = sum_s; w < 30; w++) 	
-    //    delete mul_stud[w - 1];
-	for (int i = 0; i < 18; i++) {
+	for (int w = sum_s; w < 30; w++) 	
+        delete mul_stud[w - 1];
+	for (int i = 0; i < 18; i++)
 			delete teacher[i];	
-	}
+
 	return  0;
 }
