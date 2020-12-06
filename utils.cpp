@@ -109,6 +109,10 @@ void Classroom::place_teacher(Teacher& tch) {
     teacher->teacher_set(tch);
 }
 
+Teacher& Classroom::class_teacher() {
+    
+}
+
 int Classroom::classroom_size() {
     return this->size;
 }

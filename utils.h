@@ -46,6 +46,7 @@ class Classroom {
         void enter_classroom(Student& st);
         void print_classroom(int num);
         void place_teacher(Teacher& tch);
+        Teacher& class_teacher();
         int classroom_size();
 };
 
@@ -84,7 +85,6 @@ class Floor {
         void enter_floor(Student& st);
         void print_floor(int num);
         void place_teacher_floor(Teacher& tch);
-        Teacher& class_teacher();
         int floor_size();
 };
 
