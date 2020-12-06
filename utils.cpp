@@ -12,12 +12,32 @@ Teacher::Teacher(const char* nam, int floor_nu, int class_nu, bool fla) {
     floor_num = floor_nu;
     class_num = class_nu;
     flag = fla;
-    cout << "A New Teacher has been created" << name << endl;
+    cout << "A New Teacher has been created! " << name << endl;
 }
 
 Teacher::~Teacher() {
-    cout << "Deleting Teacher with name" << name << endl;
+    cout << "Deleting Teacher with name " << name << endl;
     delete name;
+}
+
+char* Teacher::teacher_name(Teacher& tch) {
+    return this->name;
+}
+
+int Teacher::teacher_floor(Teacher& tch) {
+    return this->floor_num;
+}
+
+int Teacher::teacher_class(Teacher& tch) {
+    return this->class_num;
+}
+
+bool Teacher::teacher_in(Teacher& tch) {
+    return this->flag;
+}
+
+void Teacher::teacher_set(Teacher& tch) {
+    flag == true;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -65,6 +85,7 @@ Classroom::~Classroom() {
     for (int i = 0; i < Cclass; i++) 
         delete class_student[i];
     delete[] class_student;
+    delete teacher;
     cout << "Delete Classroom!" << endl;
 }
 
@@ -77,9 +98,15 @@ void Classroom::enter_classroom(Student& st) {
 
 void Classroom::print_classroom(int num) {
     cout << "People in classroom " << num << " are: " << endl;
-    for (int i = 0; i < this->size; i++) {
+    for (int i = 0; i < this->size; i++) 
         cout << class_student[i]->student_name(*class_student[i]) << endl;
-    }
+    if (teacher != NULL)
+        cout << "The teacher is: " << teacher->teacher_name(*teacher) << endl;
+}
+
+void Classroom::place_teacher(Teacher& tch) {
+    teacher = &tch;
+    teacher->teacher_set(tch);
 }
 
 int Classroom::classroom_size() {
@@ -207,6 +234,29 @@ void Floor::print_floor(int num) {
     classroom6->print_classroom(i++);
 }
 
+void Floor::place_teacher_floor(Teacher& tch) {
+    switch (tch.teacher_class(tch)) {
+        case 1:
+            classroom1->place_teacher(tch);
+            break;
+        case 2:
+            classroom2->place_teacher(tch);
+            break;
+        case 3:
+            classroom3->place_teacher(tch);
+            break; 
+        case 4:
+            classroom4->place_teacher(tch);
+            break;
+        case 5:
+            classroom5->place_teacher(tch);
+            break;
+        case 6:
+            classroom6->place_teacher(tch);
+            break;
+    }
+}
+
 int Floor::floor_size() {
     return corridor->corr_size();
 }
@@ -300,6 +350,7 @@ School::School(int Cclas, int Cyar, int Cstai, int Ccor) {
     Cstair = Cstai;
     Ccorr = Ccor;
     var = 0;
+    students_in = 0;
     floor1 = new Floor(Cclass, Ccorr);
     floor2 = new Floor(Cclass, Ccorr);
     floor3 = new Floor(Cclass, Ccorr);
@@ -349,8 +400,9 @@ void School::enter_sschool(Student& st) {
     }
 }
 
-void School::enter_mschool(Student* st[], int cap) {
-    while (var < cap && schoolyard->schoolyard_size() < Cyard) {
+void School::enter_mschool(Student* st[], int cap) {   
+    students_in = students_in + cap;
+    while (var < students_in && schoolyard->schoolyard_size() < Cyard) {
         this->enter_sschool(*st[var]);
     }
 }
@@ -363,6 +415,23 @@ void School::print_school() {
     floor1->print_floor(i++);
     floor2->print_floor(i++);
     floor3->print_floor(i++);
+}
+
+void School::place_teacher_school(Teacher &tch) {
+    switch (tch.teacher_floor(tch)) {
+        case 1:
+            if (tch.teacher_in(tch) == false)
+                floor1->place_teacher_floor(tch);
+            break;
+        case 2:
+            if (tch.teacher_in(tch) == false) 
+                floor2->place_teacher_floor(tch);
+            break;
+        case 3:
+            if (tch.teacher_in(tch) == false) 
+                floor3->place_teacher_floor(tch);
+            break; 
+    }
 }
 
 int School::school_size() {

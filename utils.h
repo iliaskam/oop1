@@ -9,6 +9,11 @@ class Teacher {
 
         Teacher(const char* nam, int floor_nu, int class_num, bool fla);
         ~Teacher();
+        char* teacher_name(Teacher& tch);
+        int teacher_floor(Teacher& tch);
+        int teacher_class(Teacher& tch);
+        bool teacher_in(Teacher& tch);
+        void teacher_set(Teacher& tch);
 };
 
 class Student {
@@ -24,12 +29,14 @@ class Student {
         char* student_name(Student& st);
         int student_floor(Student& st);
         int student_class(Student& st);
+        
 };
 
 class Classroom {
     int Cclass;
     int size;
     int classroom_num;
+    Teacher* teacher;
     Student** class_student;
 
     public:
@@ -38,6 +45,7 @@ class Classroom {
         ~Classroom();
         void enter_classroom(Student& st);
         void print_classroom(int num);
+        void place_teacher(Teacher& tch);
         int classroom_size();
 };
 
@@ -75,6 +83,8 @@ class Floor {
         ~Floor();
         void enter_floor(Student& st);
         void print_floor(int num);
+        void place_teacher_floor(Teacher& tch);
+        Teacher& class_teacher();
         int floor_size();
 };
 
@@ -115,6 +125,7 @@ class School {
     int Cstair;
     int Ccorr;
     int var;
+    int students_in;
     Floor* floor1;
     Floor* floor2;
     Floor* floor3;
@@ -128,5 +139,6 @@ class School {
         void enter_sschool(Student &st);
         void enter_mschool(Student* st[], int cap);
         void print_school();
+        void place_teacher_school(Teacher &tch);
         int school_size();
 };
