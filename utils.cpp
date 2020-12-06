@@ -76,6 +76,7 @@ Classroom::Classroom(int Cclas) {
     Cclass = Cclas;
     size = 0;
     classroom_num = 0;
+    teacher_flag = false;
     class_student = new Student*[Cclass];
     
     cout << "A New Classroom has been created!" << endl;
@@ -107,6 +108,11 @@ void Classroom::print_classroom(int num) {
 void Classroom::place_teacher(Teacher& tch) {
     teacher = &tch;
     teacher->teacher_set(tch);
+    teacher_flag = true;
+}
+
+bool Classroom::teacher_in() {
+    return this->teacher_flag;
 }
 
 int Classroom::classroom_size() {
@@ -184,37 +190,37 @@ void Floor::enter_floor(Student& st) {
     corridor->enter_corr(st);
     switch (st.student_class(st)) {
         case 1:
-            if (classroom1->classroom_size() < Cclass) {
+            if (classroom1->classroom_size() < Cclass && classroom1->teacher_in() == false) {
                 corridor->exit_corr();
                 this->classroom1->enter_classroom(st);
             }
             break;
         case 2:
-            if (classroom2->classroom_size() < Cclass) {
+            if (classroom2->classroom_size() < Cclass && classroom2->teacher_in() == false) {
                 corridor->exit_corr();
                 this->classroom2->enter_classroom(st);
             }
             break;
         case 3:
-            if (classroom3->classroom_size() < Cclass) {
+            if (classroom3->classroom_size() < Cclass && classroom3->teacher_in() == false) {
                 corridor->exit_corr();
                 this->classroom3->enter_classroom(st);
             }       
             break; 
         case 4:
-            if (classroom4->classroom_size() < Cclass) {
+            if (classroom4->classroom_size() < Cclass && classroom4->teacher_in() == false ) {
                 corridor->exit_corr();
                 this->classroom4->enter_classroom(st);
             }
             break;
         case 5:
-            if (classroom5->classroom_size() < Cclass) {
+            if (classroom5->classroom_size() < Cclass && classroom5->teacher_in() == false ) {
                 corridor->exit_corr();
                 this->classroom5->enter_classroom(st);
             }
             break;
         case 6:
-            if (classroom6->classroom_size() < Cclass) {
+            if (classroom6->classroom_size() < Cclass && classroom6->teacher_in() == false ) {
                 corridor->exit_corr();
                 this->classroom6->enter_classroom(st);
             }

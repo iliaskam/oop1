@@ -36,6 +36,7 @@ class Classroom {
     int Cclass;
     int size;
     int classroom_num;
+    bool teacher_flag;
     Teacher* teacher;
     Student** class_student;
 
@@ -46,6 +47,7 @@ class Classroom {
         void enter_classroom(Student& st);
         void print_classroom(int num);
         void place_teacher(Teacher& tch);
+        bool teacher_in();
         int classroom_size();
 };
 
