@@ -1,7 +1,5 @@
 #include <iostream>
 #include <cstring>
-#include <cstdlib>
-#include <ctime>
 #include "utils.h"
 
 using namespace std;
@@ -12,11 +10,11 @@ Teacher::Teacher(const char* nam, int floor_nu, int class_nu, bool fla) {
     floor_num = floor_nu;
     class_num = class_nu;
     flag = fla;
-    cout << "A New Teacher has been created! " << name << endl;
+    cout << "A New Teacher has been created! " << name << " floor " << floor_num << " classroom " << class_num << endl;
 }
 
 Teacher::~Teacher() {
-    cout << "Deleting Teacher with name " << name << endl;
+    cout << "A Teacher to be destroyed! " << name << " floor " << floor_num << " classroom " << class_num << endl;
     delete name;
 }
 
@@ -49,11 +47,11 @@ Student::Student(const char* nam, int floor_nu, int class_nu, const char* locati
     class_num = class_nu;
     location = new char[strlen(locatio) + 1];
     strcpy(location, locatio);
-    cout << "A New Student has been created with name " << name << endl;
+    cout << "A New Student has been created! " << name << " floor " << floor_num << " classroom " << class_num << endl;
 }
 
 Student::~Student() {
-    cout << "Deleting Student with name " << name << endl;
+    cout << "A Student to be destroyed! " << name << " floor " << floor_num << " classroom " << class_num << " location " << location << endl;
     delete name;
     delete location;
 }
@@ -68,6 +66,10 @@ int Student::student_floor(Student& st) {
 
 int Student::student_class(Student& st) {
     return this->class_num;
+}
+
+void Student::student_location(Student& st, const char* loc) {
+    strcpy(this->location, loc);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -92,6 +94,7 @@ Classroom::~Classroom() {
 
 void Classroom::enter_classroom(Student& st) {
     
+    st.student_location(st, "classroom");
     class_student[size] = &st;
     cout << st.student_name(st) << " enters classroom!"<< endl;
     size++;
@@ -136,6 +139,7 @@ Corridor::~Corridor() {
 
 void Corridor::enter_corr(Student& st) {
     
+    st.student_location(st, "corridor");
     corr_student[size] = &st;
     cout << st.student_name(st) << " enters corridor!" << endl;
     size++;
@@ -286,6 +290,7 @@ Stairs::~Stairs() {
 
 void Stairs::enter_stairs(Student& st) {
     
+    st.student_location(st, "stairs");
     stair_student[size] = &st;
     cout << st.student_name(st) << " enters stairs!" << endl;
     size++;
@@ -326,6 +331,7 @@ Schoolyard::~Schoolyard() {
 }
 
 void Schoolyard::enter_schoolyard(Student &st) {
+    st.student_location(st, "schoolyard");
     yard_student[size] = &st;
     cout << st.student_name(st) << " enters schoolyard!" << endl;
     size++;

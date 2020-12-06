@@ -29,6 +29,7 @@ class Student {
         char* student_name(Student& st);
         int student_floor(Student& st);
         int student_class(Student& st);
+        void student_location(Student& st, const char* loc);
         
 };
 
@@ -107,7 +108,6 @@ class Stairs {
 class Schoolyard {
     int Cyard;
     int size;
-    Stairs* stairs;
     Student** yard_student;
 
     public:
