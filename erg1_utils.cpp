@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "utils.h"
+#include "erg1_utils.h"
 
 using namespace std;
 
@@ -68,7 +68,7 @@ int Student::student_class(Student& st) {                       // Sinartisi pou
     return this->class_num;
 }
 
-void Student::student_location(Student& st, const char* loc) {  // Sinartisi pou epistrefei to onoma tou student
+void Student::student_location(Student& st, const char* loc) {  // Sinartisi pou allazei tin topothesia tou student
     strcpy(this->location, loc);
 }
 

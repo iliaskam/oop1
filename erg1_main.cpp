@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "utils.h"
+#include "erg1_utils.h"
 
 using namespace std;
 
