@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 	int sum_s = 0, sum_t = 0, rand_temp_s, rand_temp_t;
 	srand(time(0));
 
-	while(sum_s < stud_num && sum_t < teach_num) {
+	while(sum_s < stud_num && sum_t < teach_num && school->school_full() == false) {
 		rand_temp_s = rand() % 36 + 1;
 		if ((sum_s + rand_temp_s) > 36) {
 			rand_temp_s = 36 - sum_s;

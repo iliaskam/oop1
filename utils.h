@@ -127,6 +127,7 @@ class School {
     int Ccorr;
     int var;
     int students_in;
+    bool full;
     Floor* floor1;
     Floor* floor2;
     Floor* floor3;
@@ -142,4 +143,5 @@ class School {
         void print_school();
         void place_teacher_school(Teacher &tch);
         int school_size();
+        bool school_full();
 };
